@@ -56,7 +56,7 @@ public class CamelContextXml2Test {
 	@Test
 	public void testRouterunning() throws Exception {
 		context.start();
-			assertTrue(context.getRouteStatus("simple-route").isStarted());
+		assertTrue(context.getRouteStatus("simple-route").isStarted()); 
 		context.stop();
 	}
 	

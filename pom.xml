@@ -18,6 +18,7 @@
 
     <!-- configure the versions you want to use here -->
     <fabric8.version>2.2.170.redhat-000013</fabric8.version>
+    <fabric8-ipaas.version>2.2.168</fabric8-ipaas.version>
     <spring-boot.version>1.4.1.RELEASE</spring-boot.version>
 
     <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
@@ -93,6 +94,16 @@
   
   <build>
     <defaultGoal>spring-boot:run</defaultGoal>
+
+    <!-- Allows to used maven properties in XML files, used here to configure Arquillian
+         with the broker version matching the Fuse/Fabric8 one
+         see src/test/resources/arquillian.xml -->
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+      </testResource>
+    </testResources>
 
     <plugins>
 

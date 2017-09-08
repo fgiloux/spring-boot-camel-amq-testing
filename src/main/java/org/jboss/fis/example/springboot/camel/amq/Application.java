@@ -29,6 +29,7 @@ public class Application {
      * A main method to start this application.
      */
     public static void main(String[] args) {
+        System.out.println("Application starting"); 
         SpringApplication.run(Application.class, args);
     }
 

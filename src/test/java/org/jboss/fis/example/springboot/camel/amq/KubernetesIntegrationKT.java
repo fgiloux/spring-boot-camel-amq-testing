@@ -14,6 +14,9 @@
  * permissions and limitations under the License.
  */
 
+// See the following link for information:
+// https://fabric8.io/guide/testing.html
+
 package org.jboss.fis.example.springboot.camel.amq;
 
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -35,6 +38,7 @@ public class KubernetesIntegrationKT {
 
     @Test
     public void testAppProvisionsRunningPods() throws Exception {
+        // Wait 30s per default
         assertThat(client).deployments().pods().isPodReadyForPeriod();
     }
 }
