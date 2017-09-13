@@ -2,9 +2,9 @@
 
 ## Introduction
 
-This example is based on Spring-Boot and Camel XML Quickstart. It has been extended to provide examples how
-testing can be performed. First testing camel routes, although it may get extended for covering component
-and integration testing. 
+This example is based on Spring-Boot and Camel XML Quickstart. It has been extended to provide examples on how
+testing can be performed. It is first testing camel routes, although it may get extended for covering component
+and integration testing.
 
 ## Spring-Boot and Camel XML QuickStart
 
