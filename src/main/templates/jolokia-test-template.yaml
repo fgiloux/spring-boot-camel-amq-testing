@@ -1,0 +1,137 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: jolokia-test
+objects:
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftWebConsole
+    creationTimestamp: null
+    generation: 7
+    labels:
+      app: jolokia-test
+    name: jolokia-test
+  spec:
+    replicas: 1
+    selector:
+      deploymentconfig: jolokia-test
+    strategy:
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: jolokia-test
+          deploymentconfig: jolokia-test
+      spec:
+        containers:
+        - env:
+          - name: DEBUG_PORT
+            value: "8787"
+          - name: DEBUG
+            value: "true"
+          image: docker-registry.default.svc:5000/test/jolokia-test
+          imagePullPolicy: Always
+          name: jolokia-test
+          ports:
+          - containerPort: 8778
+            name: jolokia
+            protocol: TCP
+          - containerPort: 8787
+            name: debug
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - jolokia-test
+        from:
+          kind: ImageStreamTag
+          name: jolokia-test:latest
+          namespace: test
+      type: ImageChange
+    - type: ConfigChange
+  status:
+    availableReplicas: 1
+    observedGeneration: 7
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftWebConsole
+    creationTimestamp: null
+    labels:
+      app: jolokia-test
+    name: jolokia-test
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: jolokia-test:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        ref: master
+        uri: https://github.com/fgiloux/spring-boot-camel-amq-testing.git
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: fis-java-openshift:2.0
+          namespace: test
+      type: Source
+    triggers:
+    - generic:
+        secret: c51a41e31f41f1e6
+      type: Generic
+    - github:
+        secret: bdd7ac85f5eaa871
+      type: GitHub
+    - imageChange: {}
+      type: ImageChange
+    - type: ConfigChange
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftWebConsole
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: jolokia-test
+    name: jolokia-test
+  spec:
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/test/jolokia-test:latest
+      generation: null
+      importPolicy: {}
+      name: latest
+  status:
+    dockerImageRepository: ""
